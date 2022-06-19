@@ -32,7 +32,7 @@ const Home = () => {
                 filter: false,
                 customBodyRender: (value) => {
                     return (
-                        <button style={{backgroundColor: '#037A9C', border: 'none', padding: 10, color: 'white', width: 75, borderRadius: 5}} onClick={() => handleDetail(value)}>
+                        <button style={{ backgroundColor: '#037A9C', border: 'none', padding: 10, color: 'white', width: 75, borderRadius: 5 }} onClick={() => handleDetail(value)}>
                             Details
                         </button>
                     )
@@ -45,11 +45,10 @@ const Home = () => {
         fetchData()
         setInterval(() => {
             fetchData()
-        }, 10000);    
+        }, 10000);
     }, []);
 
     const handleDetail = (data) => {
-        console.log(data)
         navigate('details', { state: data })
     }
 
@@ -59,23 +58,28 @@ const Home = () => {
                 const resp = res.data.results
                 let arrData = []
                 resp.map((item, key) => {
-                    let data = {
-                        image: item.picture.thumbnail,
-                        name: item.name.title + ". " + item.name.first + " " + item.name.last,
-                        gender: item.gender,
-                        email: item.email,
-                        phone: item.phone,
-                        cell: item.cell,
-                        detail: {
-                            image: item.picture.large,
+                    let findItem = arrItem.filter(val => val.email === item.email)
+                    if (findItem.length) {
+                        console.log('same item => ', findItem)
+                    } else {
+                        let data = {
+                            image: item.picture.thumbnail,
                             name: item.name.title + ". " + item.name.first + " " + item.name.last,
                             gender: item.gender,
                             email: item.email,
                             phone: item.phone,
                             cell: item.cell,
+                            detail: {
+                                image: item.picture.large,
+                                name: item.name.title + ". " + item.name.first + " " + item.name.last,
+                                gender: item.gender,
+                                email: item.email,
+                                phone: item.phone,
+                                cell: item.cell,
+                            }
                         }
+                        arrData.push(data)
                     }
-                    arrData.push(data)
                 })
                 setArrayItem(arrData)
             })
